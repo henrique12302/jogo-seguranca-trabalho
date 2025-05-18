@@ -49,8 +49,8 @@ body {
     position: absolute;
     width: 60px;
     height: 100px;
-    background-image: url('obstacle.png');
     background-size: cover;
     top: -100px; /* Começa fora da tela */
     left: 50%;
+    transition: top 0.1s linear;
 }
