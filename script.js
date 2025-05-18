@@ -1,52 +1,92 @@
-// Garantir que o script só será executado após o carregamento completo da página
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("Script carregado com sucesso!"); // Mensagem para verificar se o script foi carregado corretamente
-    
-    // Variável para controlar se o jogo foi iniciado
-    let jogoIniciado = false;
+    const carro = document.getElementById("carro");
+    const gameContainer = document.getElementById("game-container");
 
-    // Criando um botão de "Iniciar Jogo" dinamicamente
-    const iniciarJogoButton = document.createElement("button");
-    iniciarJogoButton.textContent = "Iniciar Jogo";
-    document.body.appendChild(iniciarJogoButton); // Adicionando o botão na página
+    let carroPosition = 50; // Percentagem (50% = centro)
+    let jogoAtivo = true;
+    let velocidade = 2;
+    let score = 0;
 
-    // Definindo o estilo básico para o botão via JavaScript
-    iniciarJogoButton.style.padding = "10px 20px";
-    iniciarJogoButton.style.fontSize = "18px";
-    iniciarJogoButton.style.cursor = "pointer";
+    // Função para movimentar o carro
+    function moverCarro() {
+        if (carroPosition < 0) carroPosition = 0;
+        if (carroPosition > 100) carroPosition = 100;
+        carro.style.left = `${carroPosition}%`;
+    }
 
-    // Adicionando o evento de clique para iniciar o jogo
-    iniciarJogoButton.addEventListener("click", function() {
-        if (!jogoIniciado) {
-            jogoIniciado = true;
-            alert("Jogo iniciado!"); // Mensagem de alerta quando o jogo começa
-            iniciarJogoButton.style.display = "none"; // Escondendo o botão após o clique
+    // Gerar obstáculos
+    function gerarObstaculo() {
+        const obstacle = document.createElement("div");
+        obstacle.classList.add("obstacle");
+        obstacle.style.left = `${Math.random() * 100}%`;
+        gameContainer.appendChild(obstacle);
+        moveObstaculo(obstacle);
+    }
 
-            // Aqui você pode adicionar a lógica do jogo, por exemplo:
-            // - Gerar obstáculos
-            // - Adicionar movimento para o jogador
-            // - Iniciar o temporizador, etc.
+    // Mover obstáculos
+    function moveObstaculo(obstacle) {
+        const interval = setInterval(() => {
+            if (!jogoAtivo) {
+                clearInterval(interval);
+                return;
+            }
 
-            // Exemplo simples de manipulação do DOM para mostrar uma mensagem no jogo
-            const mensagemJogo = document.createElement("p");
-            mensagemJogo.textContent = "Atenção: Cuidado com os obstáculos!";
-            document.body.appendChild(mensagemJogo);
+            const obstacleTop = parseFloat(window.getComputedStyle(obstacle).top);
+            obstacle.style.top = obstacleTop + velocidade + "px";
 
-            // Exemplo de um timer (Simula o andamento do jogo)
-            let tempoRestante = 10; // 10 segundos para o exemplo
-            const timerElement = document.createElement("p");
-            timerElement.textContent = `Tempo restante: ${tempoRestante} segundos`;
-            document.body.appendChild(timerElement);
-
-            const timerInterval = setInterval(function() {
-                tempoRestante--;
-                timerElement.textContent = `Tempo restante: ${tempoRestante} segundos`;
-
-                if (tempoRestante <= 0) {
-                    clearInterval(timerInterval); // Para o timer
-                    alert("Jogo finalizado!"); // Alerta quando o tempo acaba
+            // Verificar colisão
+            if (obstacleTop >= 500 && obstacleTop <= 580) {
+                const obstacleLeft = parseFloat(window.getComputedStyle(obstacle).left);
+                if (
+                    obstacleLeft >= carroPosition - 5 &&
+                    obstacleLeft <= carroPosition + 5
+                ) {
+                    // Colisão detectada
+                    alert("Você perdeu!");
+                    jogoAtivo = false;
+                    clearInterval(interval);
+                    return;
                 }
-            }, 1000); // Atualiza o timer a cada segundo
+            }
+
+            // Se o obstáculo sair da tela
+            if (obstacleTop > gameContainer.offsetHeight) {
+                score++;
+                gameContainer.removeChild(obstacle);
+            }
+        }, 20);
+    }
+
+    // Detectar toque ou clique para mover o carro
+    gameContainer.addEventListener("touchstart", (event) => {
+        if (!jogoAtivo) return;
+
+        const touchX = event.touches[0].clientX;
+        const centerX = gameContainer.offsetWidth / 2;
+        
+        if (touchX < centerX) {
+            carroPosition -= 5; // Mover carro para a esquerda
+        } else {
+            carroPosition += 5; // Mover carro para a direita
         }
+
+        moverCarro();
     });
+
+    // Gerar obstáculos a cada 2 segundos
+    setInterval(() => {
+        if (jogoAtivo) {
+            gerarObstaculo();
+        }
+    }, 2000);
+
+    // Função de reinício após perder
+    function reiniciarJogo() {
+        score = 0;
+        jogoAtivo = true;
+        document.location.reload();
+    }
+
+    // Começar o jogo
+    gerarObstaculo();
 });
