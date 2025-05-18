@@ -7,44 +7,41 @@ body {
 
 #quiz-screen {
     margin-top: 50px;
+    padding: 20px;
 }
 
+/* Estilos dos botões */
 button {
     background-color: #f4b400;
     color: white;
-    padding: 10px 20px;
+    padding: 15px 30px;
     font-size: 18px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
     margin: 10px 0;
-    width: auto;
-    max-width: 90%; /* Limita a largura do botão */
-    box-sizing: border-box; /* Garante que a largura seja calculada corretamente */
+    width: 100%; /* Botões ocupam toda a largura em telas menores */
+    box-sizing: border-box;
 }
 
 button:hover {
     background-color: #f39c12;
 }
 
-#next-btn {
-    display: block; /* Garantir que o botão sempre apareça */
-}
-
+/* Tela de quiz */
 #quiz-screen {
-    padding: 10px;
+    padding: 20px;
 }
 
-/* Ajustes de responsividade */
+/* Ajuste para telas pequenas */
 @media (max-width: 600px) {
     h1, h2 {
         font-size: 24px;
     }
 
     button {
-        font-size: 16px; /* Tamanho do texto dos botões */
-        padding: 12px 18px; /* Ajuste do padding em dispositivos menores */
-        width: 100%; /* Botões ocupam toda a largura da tela */
+        font-size: 16px; /* Reduz o tamanho da fonte para dispositivos menores */
+        padding: 12px 20px;
     }
 
     #answers {
@@ -52,13 +49,8 @@ button:hover {
     }
 }
 
-/* Ajuste de tela muito pequena */
 @media (max-width: 400px) {
     button {
-        font-size: 14px; /* Reduzir um pouco mais o tamanho do texto */
-    }
-
-    #quiz-screen {
-        padding: 5px;
+        font-size: 14px; /* Ajusta ainda mais para telas muito pequenas */
     }
 }
