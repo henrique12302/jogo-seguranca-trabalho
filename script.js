@@ -44,16 +44,15 @@ nextBtn.addEventListener('click', nextQuestion);
 // Reiniciar quiz
 restartBtn.addEventListener('click', restartQuiz);
 
+// Função para iniciar o quiz
 function startQuiz() {
-    // Esconde a tela de início
     startScreen.style.display = 'none';
-    // Exibe a tela do quiz
     quizScreen.style.display = 'block';
     loadQuestion();
 }
 
+// Função para carregar a pergunta e suas opções
 function loadQuestion() {
-    // Carrega a pergunta atual
     const question = questions[currentQuestionIndex];
     questionText.textContent = question.question;
     answersDiv.innerHTML = '';
@@ -68,11 +67,11 @@ function loadQuestion() {
         answersDiv.appendChild(answerDiv);
     });
 
-    // Oculta o botão "Próxima Pergunta" inicialmente
+    // Esconde o botão "Próxima Pergunta" inicialmente
     nextBtn.style.display = 'none';
 }
 
-// Função para mostrar o botão "Próxima Pergunta" quando uma resposta for selecionada
+// Função para mostrar o botão "Próxima Pergunta"
 function showNextButton() {
     nextBtn.style.display = 'block';
 }
@@ -93,11 +92,13 @@ function nextQuestion() {
 
         // Se houver mais perguntas, carrega a próxima. Caso contrário, mostra o resultado
         if (currentQuestionIndex < questions.length) {
-            loadQuestion();
-            nextBtn.style.display = 'none'; // Oculta o botão novamente até a próxima resposta
+            loadQuestion(); // Carrega a próxima pergunta
         } else {
-            showResult();
+            showResult(); // Mostra o resultado
         }
+
+        // Esconde o botão "Próxima Pergunta" até a próxima pergunta ser carregada
+        nextBtn.style.display = 'none';
 
     } else {
         alert('Escolha uma resposta!');
@@ -106,7 +107,6 @@ function nextQuestion() {
 
 // Função para mostrar o resultado do quiz
 function showResult() {
-    // Esconde a tela do quiz e exibe a tela de resultados
     quizScreen.style.display = 'none';
     resultScreen.style.display = 'block';
 
