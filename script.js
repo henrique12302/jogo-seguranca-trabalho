@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function gerarObstaculo() {
         const obstacle = document.createElement("div");
         obstacle.classList.add("obstacle");
-        obstacle.style.left = `${Math.random() * 100}%`;
+        obstacle.style.left = `${Math.random() * 100}%`; // Coloca obstáculos aleatoriamente
         gameContainer.appendChild(obstacle);
         moveObstaculo(obstacle);
     }
