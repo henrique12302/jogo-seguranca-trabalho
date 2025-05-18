@@ -1,3 +1,4 @@
+// Definir os elementos do HTML
 const startButton = document.getElementById('start-btn');
 const startScreen = document.getElementById('start-screen');
 const quizScreen = document.getElementById('quiz-screen');
@@ -9,6 +10,7 @@ const feedbackText = document.getElementById('feedback');
 const finalScoreText = document.getElementById('final-score');
 const restartButton = document.getElementById('restart-btn');
 
+// Perguntas e respostas sobre segurança no trânsito e no trabalho
 const questions = [
     {
         question: "O que significa o Maio Amarelo?",
@@ -65,21 +67,25 @@ const questions = [
 let currentQuestionIndex = 0;
 let score = 0;
 
+// Eventos de clique nos botões
 startButton.addEventListener('click', startGame);
 nextButton.addEventListener('click', nextQuestion);
 restartButton.addEventListener('click', restartGame);
 
+// Função que começa o jogo
 function startGame() {
     startScreen.classList.add('hidden');
     quizScreen.classList.remove('hidden');
     loadQuestion();
 }
 
+// Função para carregar a pergunta e as respostas
 function loadQuestion() {
     const question = questions[currentQuestionIndex];
     questionText.textContent = question.question;
-    answersContainer.innerHTML = '';
+    answersContainer.innerHTML = ''; // Limpar respostas anteriores
 
+    // Criar botões para cada resposta
     question.answers.forEach((answer, index) => {
         const button = document.createElement('button');
         button.textContent = answer;
@@ -91,6 +97,7 @@ function loadQuestion() {
     nextButton.classList.add('hidden');
 }
 
+// Função que verifica a resposta
 function checkAnswer(selectedIndex) {
     const question = questions[currentQuestionIndex];
     if (selectedIndex === question.correctAnswer) {
@@ -103,6 +110,7 @@ function checkAnswer(selectedIndex) {
     nextButton.classList.remove('hidden');
 }
 
+// Função para ir para a próxima pergunta
 function nextQuestion() {
     currentQuestionIndex++;
 
@@ -113,12 +121,14 @@ function nextQuestion() {
     }
 }
 
+// Função que exibe a pontuação final
 function endGame() {
     quizScreen.classList.add('hidden');
     endScreen.classList.remove('hidden');
     finalScoreText.textContent = `Você acertou ${score} de ${questions.length} perguntas!`;
 }
 
+// Função para reiniciar o jogo
 function restartGame() {
     score = 0;
     currentQuestionIndex = 0;
