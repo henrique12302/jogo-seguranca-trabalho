@@ -45,57 +45,72 @@ nextBtn.addEventListener('click', nextQuestion);
 restartBtn.addEventListener('click', restartQuiz);
 
 function startQuiz() {
+    // Esconde a tela de início
     startScreen.style.display = 'none';
+    // Exibe a tela do quiz
     quizScreen.style.display = 'block';
     loadQuestion();
 }
 
 function loadQuestion() {
+    // Carrega a pergunta atual
     const question = questions[currentQuestionIndex];
     questionText.textContent = question.question;
     answersDiv.innerHTML = '';
 
+    // Cria as opções de resposta
     question.options.forEach((option, index) => {
         const answerDiv = document.createElement('div');
-        answerDiv.innerHTML = `<input type="radio" name="answer" value="${index}" id="answer-${index}">
-                               <label for="answer-${index}">${option}</label>`;
+        answerDiv.innerHTML = `
+            <input type="radio" name="answer" value="${index}" id="answer-${index}">
+            <label for="answer-${index}">${option}</label>
+        `;
         answersDiv.appendChild(answerDiv);
     });
 
-    // Exibe o botão "Próxima Pergunta"
-    nextBtn.style.display = 'block';  // Garantir que o botão está visível
+    // Oculta o botão "Próxima Pergunta" inicialmente
+    nextBtn.style.display = 'none';
 }
 
-// Função para continuar para a próxima pergunta
+// Função para mostrar o botão "Próxima Pergunta" quando uma resposta for selecionada
+function showNextButton() {
+    nextBtn.style.display = 'block';
+}
+
+// Função para verificar a resposta selecionada e avançar para a próxima pergunta
 function nextQuestion() {
     const selectedAnswer = document.querySelector('input[name="answer"]:checked');
 
     if (selectedAnswer) {
+        // Verifica se a resposta está correta
         const answerIndex = parseInt(selectedAnswer.value);
         if (answerIndex !== questions[currentQuestionIndex].answer) {
             incorrectAnswers++;
         }
 
+        // Avança para a próxima pergunta
         currentQuestionIndex++;
 
         // Se houver mais perguntas, carrega a próxima. Caso contrário, mostra o resultado
         if (currentQuestionIndex < questions.length) {
             loadQuestion();
+            nextBtn.style.display = 'none'; // Oculta o botão novamente até a próxima resposta
         } else {
             showResult();
         }
-        
-        // Esconde o botão "Próxima Pergunta" após o clique
-        nextBtn.style.display = 'none';
+
     } else {
         alert('Escolha uma resposta!');
     }
 }
 
+// Função para mostrar o resultado do quiz
 function showResult() {
+    // Esconde a tela do quiz e exibe a tela de resultados
     quizScreen.style.display = 'none';
     resultScreen.style.display = 'block';
 
+    // Exibe o texto do resultado baseado na quantidade de respostas incorretas
     if (incorrectAnswers >= 12) {
         resultText.textContent = `Você perdeu! Acertou ${questions.length - incorrectAnswers} perguntas.`;
     } else {
@@ -103,6 +118,7 @@ function showResult() {
     }
 }
 
+// Função para reiniciar o quiz
 function restartQuiz() {
     incorrectAnswers = 0;
     currentQuestionIndex = 0;
