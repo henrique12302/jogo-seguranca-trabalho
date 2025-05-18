@@ -1,93 +1,127 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const carro = document.getElementById("carro");
-    const gameContainer = document.getElementById("game-container");
+const startButton = document.getElementById('start-btn');
+const startScreen = document.getElementById('start-screen');
+const quizScreen = document.getElementById('quiz-screen');
+const endScreen = document.getElementById('end-screen');
+const questionText = document.getElementById('question-text');
+const answersContainer = document.getElementById('answers-container');
+const nextButton = document.getElementById('next-btn');
+const feedbackText = document.getElementById('feedback');
+const finalScoreText = document.getElementById('final-score');
+const restartButton = document.getElementById('restart-btn');
 
-    let carroPosition = 50; // Percentagem (50% = centro)
-    let jogoAtivo = true;
-    let velocidade = 3;
-    let score = 0;
-
-    // Função para movimentar o carro
-    function moverCarro() {
-        if (carroPosition < 0) carroPosition = 0;
-        if (carroPosition > 100) carroPosition = 100;
-        carro.style.left = `${carroPosition}%`;
+const questions = [
+    {
+        question: "O que significa o Maio Amarelo?",
+        answers: [
+            "Campanha de conscientização sobre segurança no trânsito",
+            "Campanha de prevenção contra incêndios",
+            "Campanha de reciclagem",
+            "Campanha de vacinação"
+        ],
+        correctAnswer: 0
+    },
+    {
+        question: "Qual é a principal causa de acidentes de trabalho?",
+        answers: [
+            "Falta de equipamentos de segurança",
+            "Falta de motivação",
+            "Falta de treinamentos",
+            "Desatenção e pressa"
+        ],
+        correctAnswer: 3
+    },
+    {
+        question: "Qual é a cor do sinal de trânsito que indica 'atenção'?",
+        answers: [
+            "Vermelho",
+            "Amarelo",
+            "Verde",
+            "Azul"
+        ],
+        correctAnswer: 1
+    },
+    {
+        question: "Qual a medida de segurança importante no trânsito?",
+        answers: [
+            "Usar cinto de segurança",
+            "Conversar ao celular enquanto dirige",
+            "Dirigir sem faróis à noite",
+            "Ultrapassar em faixas contínuas"
+        ],
+        correctAnswer: 0
+    },
+    {
+        question: "Qual é a principal causa de acidentes de trânsito?",
+        answers: [
+            "Excesso de velocidade",
+            "Defeito nos veículos",
+            "Maus motoristas",
+            "Falta de sinalização"
+        ],
+        correctAnswer: 0
     }
+];
 
-    // Gerar obstáculos
-    function gerarObstaculo() {
-        const obstacle = document.createElement("div");
-        obstacle.classList.add("obstacle");
-        obstacle.style.backgroundImage = "url('https://img.freepik.com/fotos-gratis/carro-caminhao-da-construcao-rua_1150-5182.jpg')"; // Imagem do obstáculo
-        obstacle.style.left = `${Math.random() * 80}%`; // Coloca obstáculos aleatoriamente, mas com margem
-        gameContainer.appendChild(obstacle);
-        moveObstaculo(obstacle);
-    }
+let currentQuestionIndex = 0;
+let score = 0;
 
-    // Mover obstáculos
-    function moveObstaculo(obstacle) {
-        const interval = setInterval(() => {
-            if (!jogoAtivo) {
-                clearInterval(interval);
-                return;
-            }
+startButton.addEventListener('click', startGame);
+nextButton.addEventListener('click', nextQuestion);
+restartButton.addEventListener('click', restartGame);
 
-            const obstacleTop = parseFloat(window.getComputedStyle(obstacle).top);
-            obstacle.style.top = obstacleTop + velocidade + "px";
+function startGame() {
+    startScreen.classList.add('hidden');
+    quizScreen.classList.remove('hidden');
+    loadQuestion();
+}
 
-            // Verificar colisão
-            if (obstacleTop >= 500 && obstacleTop <= 580) {
-                const obstacleLeft = parseFloat(window.getComputedStyle(obstacle).left);
-                if (
-                    obstacleLeft >= (carroPosition - 5) * gameContainer.offsetWidth / 100 &&
-                    obstacleLeft <= (carroPosition + 5) * gameContainer.offsetWidth / 100
-                ) {
-                    // Colisão detectada
-                    alert("Você perdeu!");
-                    jogoAtivo = false;
-                    clearInterval(interval);
-                    return;
-                }
-            }
+function loadQuestion() {
+    const question = questions[currentQuestionIndex];
+    questionText.textContent = question.question;
+    answersContainer.innerHTML = '';
 
-            // Se o obstáculo sair da tela
-            if (obstacleTop > gameContainer.offsetHeight) {
-                score++;
-                gameContainer.removeChild(obstacle);
-            }
-        }, 20);
-    }
-
-    // Detectar toque ou clique para mover o carro
-    gameContainer.addEventListener("touchstart", (event) => {
-        if (!jogoAtivo) return;
-
-        const touchX = event.touches[0].clientX;
-        const centerX = gameContainer.offsetWidth / 2;
-        
-        if (touchX < centerX) {
-            carroPosition -= 5; // Mover carro para a esquerda
-        } else {
-            carroPosition += 5; // Mover carro para a direita
-        }
-
-        moverCarro();
+    question.answers.forEach((answer, index) => {
+        const button = document.createElement('button');
+        button.textContent = answer;
+        button.addEventListener('click', () => checkAnswer(index));
+        answersContainer.appendChild(button);
     });
 
-    // Gerar obstáculos a cada 2 segundos
-    setInterval(() => {
-        if (jogoAtivo) {
-            gerarObstaculo();
-        }
-    }, 2000);
+    feedbackText.textContent = '';
+    nextButton.classList.add('hidden');
+}
 
-    // Função de reinício após perder
-    function reiniciarJogo() {
-        score = 0;
-        jogoAtivo = true;
-        document.location.reload();
+function checkAnswer(selectedIndex) {
+    const question = questions[currentQuestionIndex];
+    if (selectedIndex === question.correctAnswer) {
+        feedbackText.textContent = 'Resposta correta!';
+        score++;
+    } else {
+        feedbackText.textContent = 'Resposta errada!';
     }
 
-    // Começar o jogo
-    gerarObstaculo();
-});
+    nextButton.classList.remove('hidden');
+}
+
+function nextQuestion() {
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+    } else {
+        endGame();
+    }
+}
+
+function endGame() {
+    quizScreen.classList.add('hidden');
+    endScreen.classList.remove('hidden');
+    finalScoreText.textContent = `Você acertou ${score} de ${questions.length} perguntas!`;
+}
+
+function restartGame() {
+    score = 0;
+    currentQuestionIndex = 0;
+    startScreen.classList.remove('hidden');
+    endScreen.classList.add('hidden');
+}
