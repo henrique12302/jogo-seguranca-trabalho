@@ -62,9 +62,11 @@ function loadQuestion() {
         answersDiv.appendChild(answerDiv);
     });
 
-    nextBtn.style.display = 'block'; // Mostrar o botão "Próxima Pergunta"
+    // Exibe o botão "Próxima Pergunta"
+    nextBtn.style.display = 'block'; 
 }
 
+// Função para continuar para a próxima pergunta
 function nextQuestion() {
     const selectedAnswer = document.querySelector('input[name="answer"]:checked');
 
@@ -76,18 +78,18 @@ function nextQuestion() {
 
         currentQuestionIndex++;
 
+        // Se houver mais perguntas, carrega a próxima. Caso contrário, mostra o resultado
         if (currentQuestionIndex < questions.length) {
             loadQuestion();
         } else {
             showResult();
         }
+        
+        // Esconde o botão "Próxima Pergunta" até a próxima pergunta ser carregada
+        nextBtn.style.display = 'none';
     } else {
         alert('Escolha uma resposta!');
-        return;
     }
-
-    // Esconder o botão "Próxima Pergunta" até que a próxima seja carregada
-    nextBtn.style.display = 'none';
 }
 
 function showResult() {
