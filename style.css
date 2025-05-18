@@ -13,7 +13,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url('https://via.placeholder.com/1200x800.png?text=Imagem+do+Maio+Amarelo'); /* Adicionar aqui sua imagem do Maio Amarelo */
+    background-image: url('https://via.placeholder.com/1200x800.png?text=Imagem+do+Maio+Amarelo'); /* Adicione sua imagem */
     background-size: cover;
     background-position: center;
     color: #fff;
