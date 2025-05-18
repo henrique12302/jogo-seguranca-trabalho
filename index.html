@@ -3,15 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo de Segurança no Trabalho</title>
+    <title>Jogo Maio Amarelo - Segurança no Trânsito e no Trabalho</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="game-container">
-        <div id="carro">
-            <img src="https://www.carrosnaweb.com.br/Uploads/carros/1110458_4.jpg" alt="Carro" id="carro-img">
+        <div id="start-screen">
+            <h1>Bem-vindo ao Jogo Maio Amarelo!</h1>
+            <p>Teste seus conhecimentos sobre segurança no trânsito e no trabalho!</p>
+            <button id="start-btn">Começar o Jogo</button>
         </div>
-        <div id="obstacles"></div>
+
+        <div id="quiz-screen" class="hidden">
+            <h2 id="question-text"></h2>
+            <div id="answers-container"></div>
+            <p id="feedback"></p>
+            <button id="next-btn" class="hidden">Próxima Pergunta</button>
+        </div>
+
+        <div id="end-screen" class="hidden">
+            <h2>Fim de Jogo!</h2>
+            <p id="final-score"></p>
+            <button id="restart-btn">Jogar Novamente</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
