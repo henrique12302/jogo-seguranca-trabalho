@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     let carroPosition = 50; // Percentagem (50% = centro)
     let jogoAtivo = true;
-    let velocidade = 2;
+    let velocidade = 3;
     let score = 0;
 
     // Função para movimentar o carro
@@ -18,7 +18,8 @@ document.addEventListener("DOMContentLoaded", function() {
     function gerarObstaculo() {
         const obstacle = document.createElement("div");
         obstacle.classList.add("obstacle");
-        obstacle.style.left = `${Math.random() * 100}%`; // Coloca obstáculos aleatoriamente
+        obstacle.style.backgroundImage = "url('https://img.freepik.com/fotos-gratis/carro-caminhao-da-construcao-rua_1150-5182.jpg')"; // Imagem do obstáculo
+        obstacle.style.left = `${Math.random() * 80}%`; // Coloca obstáculos aleatoriamente, mas com margem
         gameContainer.appendChild(obstacle);
         moveObstaculo(obstacle);
     }
@@ -38,8 +39,8 @@ document.addEventListener("DOMContentLoaded", function() {
             if (obstacleTop >= 500 && obstacleTop <= 580) {
                 const obstacleLeft = parseFloat(window.getComputedStyle(obstacle).left);
                 if (
-                    obstacleLeft >= carroPosition - 5 &&
-                    obstacleLeft <= carroPosition + 5
+                    obstacleLeft >= (carroPosition - 5) * gameContainer.offsetWidth / 100 &&
+                    obstacleLeft <= (carroPosition + 5) * gameContainer.offsetWidth / 100
                 ) {
                     // Colisão detectada
                     alert("Você perdeu!");
