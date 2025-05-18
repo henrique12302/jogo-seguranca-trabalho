@@ -1,77 +1,52 @@
-const questions = [
-  {
-    question: "Você vai dirigir no pátio da empresa. O que deve fazer primeiro?",
-    options: [
-      { text: "Colocar o cinto de segurança e verificar os espelhos", correct: true },
-      { text: "Ligar o som do carro bem alto", correct: false },
-    ]
-  },
-  {
-    question: "Ao ver um pedestre próximo à faixa, você deve:",
-    options: [
-      { text: "Parar o veículo e dar a preferência", correct: true },
-      { text: "Aumentar a velocidade e buzinar", correct: false },
-    ]
-  },
-  {
-    question: "Você notou que os freios estão com problema. O que fazer?",
-    options: [
-      { text: "Reportar imediatamente e não usar o carro", correct: true },
-      { text: "Usar mesmo assim, mas com cuidado", correct: false },
-    ]
-  },
-  {
-    question: "É obrigatório o uso de EPI ao sair do veículo em área industrial?",
-    options: [
-      { text: "Sim, principalmente colete refletivo e capacete", correct: true },
-      { text: "Não, só se alguém estiver olhando", correct: false },
-    ]
-  }
-];
+// Garantir que o script só será executado após o carregamento completo da página
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("Script carregado com sucesso!"); // Mensagem para verificar se o script foi carregado corretamente
+    
+    // Variável para controlar se o jogo foi iniciado
+    let jogoIniciado = false;
 
-let currentQuestion = 0;
-let score = 0;
+    // Criando um botão de "Iniciar Jogo" dinamicamente
+    const iniciarJogoButton = document.createElement("button");
+    iniciarJogoButton.textContent = "Iniciar Jogo";
+    document.body.appendChild(iniciarJogoButton); // Adicionando o botão na página
 
-function startGame() {
-  currentQuestion = 0;
-  score = 0;
-  document.getElementById("score").textContent = "Pontuação: 0";
-  showQuestion();
-}
+    // Definindo o estilo básico para o botão via JavaScript
+    iniciarJogoButton.style.padding = "10px 20px";
+    iniciarJogoButton.style.fontSize = "18px";
+    iniciarJogoButton.style.cursor = "pointer";
 
-function showQuestion() {
-  const q = questions[currentQuestion];
-  document.getElementById("question").textContent = q.question;
-  const optionsDiv = document.getElementById("options");
-  optionsDiv.innerHTML = "";
+    // Adicionando o evento de clique para iniciar o jogo
+    iniciarJogoButton.addEventListener("click", function() {
+        if (!jogoIniciado) {
+            jogoIniciado = true;
+            alert("Jogo iniciado!"); // Mensagem de alerta quando o jogo começa
+            iniciarJogoButton.style.display = "none"; // Escondendo o botão após o clique
 
-  q.options.forEach((option, index) => {
-    const btn = document.createElement("button");
-    btn.textContent = option.text;
-    btn.onclick = () => handleAnswer(option.correct);
-    optionsDiv.appendChild(btn);
-  });
-}
+            // Aqui você pode adicionar a lógica do jogo, por exemplo:
+            // - Gerar obstáculos
+            // - Adicionar movimento para o jogador
+            // - Iniciar o temporizador, etc.
 
-function handleAnswer(isCorrect) {
-  if (isCorrect) {
-    alert("✅ Correto! Segurança em primeiro lugar!");
-    score += 10;
-  } else {
-    alert("❌ Incorreto! Isso pode causar acidentes.");
-  }
+            // Exemplo simples de manipulação do DOM para mostrar uma mensagem no jogo
+            const mensagemJogo = document.createElement("p");
+            mensagemJogo.textContent = "Atenção: Cuidado com os obstáculos!";
+            document.body.appendChild(mensagemJogo);
 
-  document.getElementById("score").textContent = "Pontuação: " + score;
+            // Exemplo de um timer (Simula o andamento do jogo)
+            let tempoRestante = 10; // 10 segundos para o exemplo
+            const timerElement = document.createElement("p");
+            timerElement.textContent = `Tempo restante: ${tempoRestante} segundos`;
+            document.body.appendChild(timerElement);
 
-  currentQuestion++;
-  if (currentQuestion < questions.length) {
-    showQuestion();
-  } else {
-    endGame();
-  }
-}
+            const timerInterval = setInterval(function() {
+                tempoRestante--;
+                timerElement.textContent = `Tempo restante: ${tempoRestante} segundos`;
 
-function endGame() {
-  document.getElementById("question").textContent = "🎉 Fim de jogo! Sua pontuação: " + score;
-  document.getElementById("options").innerHTML = "";
-}
+                if (tempoRestante <= 0) {
+                    clearInterval(timerInterval); // Para o timer
+                    alert("Jogo finalizado!"); // Alerta quando o tempo acaba
+                }
+            }, 1000); // Atualiza o timer a cada segundo
+        }
+    });
+});
