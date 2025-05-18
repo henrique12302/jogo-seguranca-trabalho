@@ -63,7 +63,7 @@ function loadQuestion() {
     });
 
     // Exibe o botão "Próxima Pergunta"
-    nextBtn.style.display = 'block'; 
+    nextBtn.style.display = 'block';  // Garantir que o botão está visível
 }
 
 // Função para continuar para a próxima pergunta
@@ -85,7 +85,7 @@ function nextQuestion() {
             showResult();
         }
         
-        // Esconde o botão "Próxima Pergunta" até a próxima pergunta ser carregada
+        // Esconde o botão "Próxima Pergunta" após o clique
         nextBtn.style.display = 'none';
     } else {
         alert('Escolha uma resposta!');
