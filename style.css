@@ -20,17 +20,12 @@ button {
     cursor: pointer;
     border-radius: 5px;
     margin: 10px 0;
-    width: 100%; /* Botões ocupam toda a largura em telas menores */
+    width: 100%;
     box-sizing: border-box;
 }
 
 button:hover {
     background-color: #f39c12;
-}
-
-/* Tela de quiz */
-#quiz-screen {
-    padding: 20px;
 }
 
 /* Ajuste para telas pequenas */
@@ -40,7 +35,7 @@ button:hover {
     }
 
     button {
-        font-size: 16px; /* Reduz o tamanho da fonte para dispositivos menores */
+        font-size: 16px;
         padding: 12px 20px;
     }
 
@@ -51,6 +46,6 @@ button:hover {
 
 @media (max-width: 400px) {
     button {
-        font-size: 14px; /* Ajusta ainda mais para telas muito pequenas */
+        font-size: 14px;
     }
 }
