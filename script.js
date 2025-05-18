@@ -37,8 +37,11 @@ const startScreen = document.getElementById('start-screen');
 const quizScreen = document.getElementById('quiz-screen');
 const resultScreen = document.getElementById('result-screen');
 
+// Iniciar quiz
 startBtn.addEventListener('click', startQuiz);
+// Próxima pergunta
 nextBtn.addEventListener('click', nextQuestion);
+// Reiniciar quiz
 restartBtn.addEventListener('click', restartQuiz);
 
 function startQuiz() {
@@ -59,7 +62,7 @@ function loadQuestion() {
         answersDiv.appendChild(answerDiv);
     });
 
-    nextBtn.style.display = 'none';
+    nextBtn.style.display = 'block'; // Mostrar o botão "Próxima Pergunta"
 }
 
 function nextQuestion() {
@@ -78,11 +81,13 @@ function nextQuestion() {
         } else {
             showResult();
         }
-
-        nextBtn.style.display = 'none';
     } else {
         alert('Escolha uma resposta!');
+        return;
     }
+
+    // Esconder o botão "Próxima Pergunta" até que a próxima seja carregada
+    nextBtn.style.display = 'none';
 }
 
 function showResult() {
@@ -102,4 +107,3 @@ function restartQuiz() {
     resultScreen.style.display = 'none';
     startScreen.style.display = 'block';
 }
-
