@@ -17,6 +17,10 @@ button {
     border: none;
     cursor: pointer;
     border-radius: 5px;
+    margin: 10px 0;
+    width: auto;
+    max-width: 90%; /* Limita a largura do botão */
+    box-sizing: border-box; /* Garante que a largura seja calculada corretamente */
 }
 
 button:hover {
@@ -25,4 +29,36 @@ button:hover {
 
 #next-btn {
     display: block; /* Garantir que o botão sempre apareça */
+}
+
+#quiz-screen {
+    padding: 10px;
+}
+
+/* Ajustes de responsividade */
+@media (max-width: 600px) {
+    h1, h2 {
+        font-size: 24px;
+    }
+
+    button {
+        font-size: 16px; /* Tamanho do texto dos botões */
+        padding: 12px 18px; /* Ajuste do padding em dispositivos menores */
+        width: 100%; /* Botões ocupam toda a largura da tela */
+    }
+
+    #answers {
+        padding: 10px;
+    }
+}
+
+/* Ajuste de tela muito pequena */
+@media (max-width: 400px) {
+    button {
+        font-size: 14px; /* Reduzir um pouco mais o tamanho do texto */
+    }
+
+    #quiz-screen {
+        padding: 5px;
+    }
 }
