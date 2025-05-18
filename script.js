@@ -20,7 +20,7 @@ const questions = [
         options: ["Prevenir acidentes de trânsito", "Promover eventos esportivos", "Apoiar campanhas de saúde", "Aumentar a arrecadação de multas"],
         answer: 0
     },
-    // Adicione mais perguntas aqui...
+    // Mais perguntas podem ser adicionadas aqui
 ];
 
 // Variáveis de controle do quiz
