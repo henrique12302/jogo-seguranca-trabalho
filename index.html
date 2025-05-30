@@ -1,297 +1,107 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Quiz Maio Amarelo - Segurança no Trânsito e Trabalho</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body {
-            background: #fffbe6;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 40px auto;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.09);
-            padding: 32px 24px;
-        }
-        h1 {
-            color: #eab700;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .score {
-            text-align: center;
-            margin-bottom: 18px;
-            font-size: 1.1em;
-            color: #333;
-        }
-        .question {
-            font-size: 1.15em;
-            margin-bottom: 18px;
-            color: #444;
-        }
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .option-btn {
-            background: #fffbe6;
-            border: 2px solid #eab700;
-            border-radius: 6px;
-            padding: 10px 12px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background 0.2s, border 0.2s;
-        }
-        .option-btn:hover {
-            background: #fff3b0;
-            border-color: #ffd700;
-        }
-        .feedback {
-            font-size: 1em;
-            margin-bottom: 16px;
-            min-height: 24px;
-            text-align: center;
-        }
-        .end-message {
-            text-align: center;
-            font-size: 1.3em;
-            margin-top: 30px;
-            color: #222;
-        }
-        .restart-btn {
-            display: block;
-            margin: 24px auto 0 auto;
-            background: #eab700;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 10px 28px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .restart-btn:hover {
-            background: #ffd700;
-            color: #333;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Missão Hiperbárica</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #001f3f;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+    .panel {
+      background: #003366;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+      margin-top: 20px;
+    }
+    .status {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    .warning {
+      color: yellow;
+    }
+    .danger {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-    <h1>Quiz Maio Amarelo</h1>
-    <div class="score" id="score"></div>
-    <div class="question" id="question"></div>
-    <div class="options" id="options"></div>
-    <div class="feedback" id="feedback"></div>
-    <div class="end-message" id="end-message"></div>
-    <button class="restart-btn" id="restart" style="display:none;">Jogar Novamente</button>
+
+<h1>Missão Hiperbárica</h1>
+<p>Mantenha o paciente seguro controlando a pressão e o tempo.</p>
+
+<div class="panel">
+  <div class="status">⏱️ Tempo: <span id="time">0</span>s</div>
+  <div class="status">⚙️ Pressão: <span id="pressure">1.0</span> ATA</div>
+  <div class="status">🫁 Oxigênio: <span id="oxygen">100</span>%</div>
+  <div id="alert" class="status"></div>
+  <button onclick="increasePressure()">Aumentar Pressão</button>
+  <button onclick="decreasePressure()">Reduzir Pressão</button>
 </div>
+
 <script>
-const perguntas = [
-    {
-        pergunta: "O Maio Amarelo é uma campanha para conscientizar sobre segurança no trânsito?",
-        opcoes: ["Sim", "Não"],
-        correta: 0
-    },
-    {
-        pergunta: "Qual a cor símbolo do movimento Maio Amarelo?",
-        opcoes: ["Azul", "Amarelo", "Verde", "Vermelho"],
-        correta: 1
-    },
-    {
-        pergunta: "Usar o celular ao volante aumenta o risco de acidentes?",
-        opcoes: ["Sim", "Não"],
-        correta: 0
-    },
-    {
-        pergunta: "O cinto de segurança é obrigatório apenas para o motorista?",
-        opcoes: ["Sim", "Não"],
-        correta: 1
-    },
-    {
-        pergunta: "Qual a principal causa de acidentes no trânsito brasileiro?",
-        opcoes: ["Falha mecânica", "Falha humana", "Animais na pista", "Condições climáticas"],
-        correta: 1
-    },
-    {
-        pergunta: "O que fazer ao presenciar um acidente de trânsito?",
-        opcoes: [
-            "Sair do local",
-            "Prestar socorro e acionar o resgate",
-            "Apenas observar",
-            "Fotografar e postar nas redes sociais"
-        ],
-        correta: 1
-    },
-    {
-        pergunta: "O uso do capacete é obrigatório para motociclistas?",
-        opcoes: ["Sim", "Não"],
-        correta: 0
-    },
-    {
-        pergunta: "Qual o número do telefone para emergência de trânsito no Brasil?",
-        opcoes: ["190", "192", "193", "180"],
-        correta: 1
-    },
-    {
-        pergunta: "O Maio Amarelo incentiva atitudes seguras apenas no trânsito?",
-        opcoes: ["Sim", "Não"],
-        correta: 1
-    },
-    {
-        pergunta: "Dirigir sob efeito de álcool é infração gravíssima?",
-        opcoes: ["Sim", "Não"],
-        correta: 0
-    },
-    {
-        pergunta: "O uso do celular é permitido em qualquer situação ao dirigir?",
-        opcoes: ["Sim", "Não"],
-        correta: 1
-    },
-    {
-        pergunta: "O que significa a faixa de pedestres?",
-        opcoes: [
-            "Área exclusiva para ciclistas",
-            "Local seguro para travessia de pedestres",
-            "Estacionamento de motos",
-            "Faixa de ônibus"
-        ],
-        correta: 1
-    },
-    {
-        pergunta: "O Maio Amarelo ocorre em qual mês?",
-        opcoes: ["Maio", "Junho", "Julho", "Agosto"],
-        correta: 0
-    },
-    {
-        pergunta: "Qual a atitude correta ao ver um acidente no trabalho?",
-        opcoes: [
-            "Ignorar",
-            "Comunicar ao responsável e prestar auxílio",
-            "Registrar e não avisar ninguém",
-            "Sair do local"
-        ],
-        correta: 1
-    },
-    {
-        pergunta: "O uso de EPI (Equipamento de Proteção Individual) é obrigatório em atividades de risco?",
-        opcoes: ["Sim", "Não"],
-        correta: 0
-    },
-    {
-        pergunta: "O Maio Amarelo é uma campanha nacional e internacional?",
-        opcoes: ["Sim", "Não"],
-        correta: 0
-    },
-    {
-        pergunta: "O que fazer ao atravessar a rua?",
-        opcoes: [
-            "Olhar para os dois lados",
-            "Atravessar correndo",
-            "Não prestar atenção",
-            "Atravessar fora da faixa"
-        ],
-        correta: 0
-    },
-    {
-        pergunta: "Qual a penalidade para quem não usa cinto de segurança?",
-        opcoes: [
-            "Advertência verbal",
-            "Multa e pontos na CNH",
-            "Apenas orientação",
-            "Nenhuma"
-        ],
-        correta: 1
-    },
-    {
-        pergunta: "O Maio Amarelo incentiva a prevenção de acidentes apenas para motoristas?",
-        opcoes: ["Sim", "Não"],
-        correta: 1
-    },
-    {
-        pergunta: "Quantos erros são permitidos antes de perder o jogo?",
-        opcoes: ["10", "12", "15", "20"],
-        correta: 1
+  let pressure = 1.0;
+  let oxygen = 100;
+  let time = 0;
+  let interval;
+
+  function updateDisplay() {
+    document.getElementById('pressure').textContent = pressure.toFixed(1);
+    document.getElementById('oxygen').textContent = oxygen + '%';
+    document.getElementById('time').textContent = time;
+
+    let alert = document.getElementById('alert');
+    alert.textContent = "";
+
+    if (pressure > 3.0 || pressure < 1.0) {
+      alert.textContent = "⚠️ Pressão perigosa!";
+      alert.className = "status danger";
+      clearInterval(interval);
+    } else if (oxygen < 50) {
+      alert.textContent = "⚠️ Nível de oxigênio crítico!";
+      alert.className = "status danger";
+      clearInterval(interval);
+    } else if (time >= 60) {
+      alert.textContent = "⏰ Tempo limite atingido!";
+      alert.className = "status warning";
+      clearInterval(interval);
     }
-];
+  }
 
-let indice = 0;
-let erros = 0;
-let acertos = 0;
-const maxErros = 12;
+  function increasePressure() {
+    pressure += 0.1;
+    oxygen -= 2;
+    updateDisplay();
+  }
 
-const scoreDiv = document.getElementById('score');
-const questionDiv = document.getElementById('question');
-const optionsDiv = document.getElementById('options');
-const feedbackDiv = document.getElementById('feedback');
-const endMsgDiv = document.getElementById('end-message');
-const restartBtn = document.getElementById('restart');
+  function decreasePressure() {
+    pressure -= 0.1;
+    oxygen += 2;
+    updateDisplay();
+  }
 
-function mostrarPergunta() {
-    scoreDiv.textContent = `Pergunta ${indice + 1} de 20 | Acertos: ${acertos} | Erros: ${erros} (máx: 12)`;
-    questionDiv.textContent = perguntas[indice].pergunta;
-    optionsDiv.innerHTML = '';
-    feedbackDiv.textContent = '';
-    perguntas[indice].opcoes.forEach((op, i) => {
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        btn.textContent = op;
-        btn.onclick = () => checarResposta(i);
-        optionsDiv.appendChild(btn);
-    });
-}
-
-function checarResposta(selecionada) {
-    const correta = perguntas[indice].correta;
-    if (selecionada === correta) {
-        feedbackDiv.textContent = "✅ Resposta correta!";
-        acertos++;
-    } else {
-        feedbackDiv.textContent = `❌ Resposta errada!`;
-        erros++;
-    }
-    setTimeout(() => {
-        indice++;
-        if (erros >= maxErros) {
-            fimDeJogo(false);
-        } else if (indice >= perguntas.length) {
-            fimDeJogo(true);
-        } else {
-            mostrarPergunta();
-        }
+  function startGame() {
+    interval = setInterval(() => {
+      time++;
+      oxygen -= 1;
+      updateDisplay();
     }, 1000);
-}
+  }
 
-function fimDeJogo(venceu) {
-    questionDiv.textContent = '';
-    optionsDiv.innerHTML = '';
-    feedbackDiv.textContent = '';
-    if (venceu) {
-        endMsgDiv.innerHTML = `<b>Parabéns!</b> Você completou o quiz.<br>Acertos: ${acertos} | Erros: ${erros}`;
-    } else {
-        endMsgDiv.innerHTML = `<b>Você perdeu!</b> Atingiu o limite de 12 erros.<br>Acertos: ${acertos}`;
-    }
-    restartBtn.style.display = 'block';
-}
-
-restartBtn.onclick = () => {
-    indice = 0;
-    erros = 0;
-    acertos = 0;
-    endMsgDiv.textContent = '';
-    restartBtn.style.display = 'none';
-    mostrarPergunta();
-};
-
-mostrarPergunta();
+  startGame();
 </script>
+
 </body>
 </html>
