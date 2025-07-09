@@ -2,106 +2,69 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Missão Hiperbárica</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rique para Presidente da CIPA</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #001f3f;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    header {
+      background-color: #004aad;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      padding: 30px;
+      max-width: 900px;
+      margin: auto;
+    }
+    img {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      margin: 20px auto;
+      display: block;
+      border-radius: 10px;
+    }
+    p {
+      line-height: 1.6;
+      font-size: 18px;
+    }
+    footer {
+      background-color: #004aad;
       color: #fff;
       text-align: center;
-      padding: 20px;
-    }
-    .panel {
-      background: #003366;
-      padding: 20px;
-      border-radius: 10px;
-      display: inline-block;
-      margin-top: 20px;
-    }
-    .status {
-      font-size: 20px;
-      margin: 10px 0;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      margin: 5px;
-      cursor: pointer;
-    }
-    .warning {
-      color: yellow;
-    }
-    .danger {
-      color: red;
-      font-weight: bold;
+      padding: 10px;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
+  <header>
+    <h1>https://www.google.com/url?sa=i&url=https%3A%2F%2Flogospng.org%2Flogo-cipa-comissao-interna-de-prevencao-de-acidentes%2F&psig=AOvVaw2eaSijfTfIgLUKFgnjRxEg&ust=1752190595880000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIDf6eH4sI4DFQAAAAAdAAAAABAE</h1>
+    <h2>Sua saúde em primeiro lugar 🥇</h2>
+  </header>
 
-<h1>Missão Hiperbárica</h1>
-<p>Mantenha o paciente seguro controlando a pressão e o tempo.</p>
+  <div class="container">
+    <img src="/mnt/data/WhatsApp Image 2025-07-06 at 13.31.57.jpeg" alt="Cartaz CIPA">
+    <img src="/mnt/data/WhatsApp Image 2025-07-06 at 13.22.35.jpeg" alt="Rique para presidente">
 
-<div class="panel">
-  <div class="status">⏱️ Tempo: <span id="time">0</span>s</div>
-  <div class="status">⚙️ Pressão: <span id="pressure">1.0</span> ATA</div>
-  <div class="status">🫁 Oxigênio: <span id="oxygen">100</span>%</div>
-  <div id="alert" class="status"></div>
-  <button onclick="increasePressure()">Aumentar Pressão</button>
-  <button onclick="decreasePressure()">Reduzir Pressão</button>
-</div>
+    <p>Olá turma, me chamo <strong>Henrique Bravim</strong>, estudante do Senac, aluno esforçado e empenhado e futuro TST.<br><br>
+    Estou me candidatando a participar como membro crucial da CIPA, pela primeira vez, pois me identifico com a atividade desenvolvida por esta Comissão, que cuida do bem-estar e a integridade física de todos durante a execução do nosso trabalho diário aqui no Senac.<br><br>
+    Pretendo, com o auxílio de todos, identificar as condições de risco existentes nos diversos ambientes de trabalho do Senac e propor juntamente com os demais Cipeiros soluções à administração, com o objetivo de eliminar ou minimizar os riscos identificados.<br><br>
+    Entendo que o trabalho da CIPA tem que ser pautado na prevenção, pois ela preserva vidas; protege a saúde e a integridade dos trabalhadores, e neste sentido vou direcionar o meu trabalho na comissão.<br><br>
+    Uma CIPA atenta e engajada zela pela integridade física dos trabalhadores, protege a saúde e a segurança de todos no ambiente de trabalho.<br><br>
+    Peço seu voto, para juntos conquistarmos a cada dia um lugar melhor. <strong>Vote Rique pra presidente. Sua saúde em primeiro lugar 🥇</strong>
+    </p>
+  </div>
 
-<script>
-  let pressure = 1.0;
-  let oxygen = 100;
-  let time = 0;
-  let interval;
-
-  function updateDisplay() {
-    document.getElementById('pressure').textContent = pressure.toFixed(1);
-    document.getElementById('oxygen').textContent = oxygen + '%';
-    document.getElementById('time').textContent = time;
-
-    let alert = document.getElementById('alert');
-    alert.textContent = "";
-
-    if (pressure > 3.0 || pressure < 1.0) {
-      alert.textContent = "⚠️ Pressão perigosa!";
-      alert.className = "status danger";
-      clearInterval(interval);
-    } else if (oxygen < 50) {
-      alert.textContent = "⚠️ Nível de oxigênio crítico!";
-      alert.className = "status danger";
-      clearInterval(interval);
-    } else if (time >= 60) {
-      alert.textContent = "⏰ Tempo limite atingido!";
-      alert.className = "status warning";
-      clearInterval(interval);
-    }
-  }
-
-  function increasePressure() {
-    pressure += 0.1;
-    oxygen -= 2;
-    updateDisplay();
-  }
-
-  function decreasePressure() {
-    pressure -= 0.1;
-    oxygen += 2;
-    updateDisplay();
-  }
-
-  function startGame() {
-    interval = setInterval(() => {
-      time++;
-      oxygen -= 1;
-      updateDisplay();
-    }, 1000);
-  }
-
-  startGame();
-</script>
-
+  <footer>
+    © 2025 Henrique Bravim - Candidato à CIPA
+  </footer>
 </body>
 </html>
